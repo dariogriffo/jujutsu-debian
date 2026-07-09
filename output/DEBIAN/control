@@ -1,0 +1,9 @@
+Section: vcs
+Priority: optional
+Maintainer: Dario Griffo <dariogriffo@gmail.com>
+Homepage: https://github.com/jj-vcs/jj
+Package: jujutsu
+Version: jujutsu_VERSION-BUILD_VERSION+DIST
+Architecture: SUPPORTED_ARCHITECTURES
+Description: Git-compatible VCS that is both simple and powerful.
+

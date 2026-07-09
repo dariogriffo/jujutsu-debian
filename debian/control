@@ -1,0 +1,17 @@
+Source: jujutsu
+Section: vcs
+Priority: optional
+Maintainer: Dario Griffo <dariogriffo@gmail.com>
+Build-Depends: debhelper-compat (= 13), wget, ca-certificates
+Standards-Version: 4.6.2
+Homepage: https://github.com/jj-vcs/jj
+Rules-Requires-Root: no
+
+Package: jujutsu
+Architecture: amd64 arm64
+Depends: ${misc:Depends}
+Description: Git-compatible VCS that is both simple and powerful
+ Jujutsu (jj) is a Git-compatible distributed version control system.
+ It provides an alternative user interface and workflow on top of Git
+ repositories, with features like automatic rebase, first-class conflicts,
+ and a full operation log with undo support.

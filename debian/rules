@@ -1,0 +1,36 @@
+#!/usr/bin/make -f
+DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
+JUJUTSU_VERSION := $(shell dpkg-parsechangelog -S Version | sed 's/[-~].*//')
+
+%:
+	dh $@
+
+override_dh_auto_configure:
+
+override_dh_auto_build:
+	@arch="$(DEB_HOST_ARCH)"; \
+	case "$$arch" in \
+		amd64) JUJUTSU_RELEASE="jj-v$(JUJUTSU_VERSION)-x86_64-unknown-linux-musl" ;; \
+		arm64) JUJUTSU_RELEASE="jj-v$(JUJUTSU_VERSION)-aarch64-unknown-linux-musl" ;; \
+		*) echo "Unsupported architecture: $$arch"; exit 1 ;; \
+	esac; \
+	echo "Downloading $$JUJUTSU_RELEASE for $(JUJUTSU_VERSION)..."; \
+	wget -q "https://github.com/jj-vcs/jj/releases/download/v$(JUJUTSU_VERSION)/$$JUJUTSU_RELEASE.tar.gz"; \
+	tar -xf "$$JUJUTSU_RELEASE.tar.gz"; \
+	rm -f "$$JUJUTSU_RELEASE.tar.gz"; \
+	echo "$$JUJUTSU_RELEASE" > .jujutsu_release_name
+
+override_dh_auto_install:
+	@install -D -m 755 "jj" debian/jujutsu/usr/bin/jj
+
+override_dh_auto_test:
+
+override_dh_auto_clean:
+	@if [ -f .jujutsu_release_name ]; then \
+		JUJUTSU_RELEASE=$$(cat .jujutsu_release_name); \
+		rm -rf "$$JUJUTSU_RELEASE" jj README.md LICENSE .jujutsu_release_name || true; \
+	fi
+
+override_dh_strip:
+
+override_dh_shlibdeps:
