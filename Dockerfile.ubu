@@ -14,6 +14,8 @@ RUN mkdir -p /output/DEBIAN
 
 COPY ${JUJUTSU_RELEASE}/jj /output/usr/bin/jj
 COPY output/DEBIAN/control /output/DEBIAN/
+COPY output/DEBIAN/postinst /output/DEBIAN/postinst
+RUN chmod 755 /output/DEBIAN/postinst
 COPY output/copyright /output/usr/share/doc/jujutsu/
 COPY output/changelog.Debian /output/usr/share/doc/jujutsu/
 COPY output/README.md /output/usr/share/doc/jujutsu/
